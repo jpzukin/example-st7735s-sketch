@@ -36,8 +36,8 @@ void ST7735S::begin()
   // リセット状態からの状態変更
   writeCommand(ST7735S_SLPOUT);   delay(150);   // 1. スリープ解除
   writeCommand(ST7735S_DISPON);   delay(150);   // 2. 表示オン
-  writeCommand(ST7735S_MADCTL);                 // 3. 書き込み方向:180°、色の並び:BGR
-  writeData(0xC8);
+  writeCommand(ST7735S_MADCTL);                 // 3. 書き込み方向:180°、色の並び:RGB
+  writeData(0xC0);
   writeCommand(ST7735S_COLMOD);                 // 4. 色深度:16bpp
   writeData(0x05);
 }
@@ -67,8 +67,8 @@ void ST7735S::writeData(uint8_t data)
 void ST7735S::drawPixel(uint8_t x, uint8_t y, uint16_t color)
 {
   if (setDrawArea(x, y, 1, 1) == true) {
-    writeData( lowByte(color));
     writeData(highByte(color));
+    writeData( lowByte(color));
   }
 }
 
@@ -96,8 +96,8 @@ void ST7735S::fillRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint
   if (setDrawArea(x, y, (x + width - 1), (y + height - 1)) == true) {
     int totalPixel = width * height;
     while (totalPixel > 0) {
-       writeData( lowByte(color));
        writeData(highByte(color));
+       writeData( lowByte(color));
        totalPixel -= 1;
     }
   }
