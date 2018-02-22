@@ -66,13 +66,12 @@ void ST7735S::writeData(uint8_t data)
 
 void ST7735S::drawPixel(uint8_t x, uint8_t y, uint16_t color)
 {
-  if (setDrawArea(x, y, 1, 1) == true) {
-    writeData(highByte(color));
-    writeData( lowByte(color));
-  }
+  setDrawArea(x, y, 1, 1);
+  writeData(highByte(color));
+  writeData( lowByte(color));
 }
 
-boolean ST7735S::setDrawArea(uint8_t xs, uint8_t ys, uint8_t xe, uint8_t ye)
+void ST7735S::setDrawArea(uint8_t xs, uint8_t ys, uint8_t xe, uint8_t ye)
 {
   writeCommand(ST7735S_CASET);
   writeData(0x00);  writeData(_offsetX + xs);   // 開始列
@@ -82,8 +81,6 @@ boolean ST7735S::setDrawArea(uint8_t xs, uint8_t ys, uint8_t xe, uint8_t ye)
   writeData(0x00);  writeData(_offsetY + ye);   // 終了行
 
   writeCommand(ST7735S_RAMWR);  // 描画データ送信開始
-
-  return true;
 }
 
 void ST7735S::clear(uint16_t color)
@@ -93,13 +90,13 @@ void ST7735S::clear(uint16_t color)
 
 void ST7735S::fillRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint16_t color)
 {
-  if (setDrawArea(x, y, (x + width - 1), (y + height - 1)) == true) {
-    int totalPixel = width * height;
-    while (totalPixel > 0) {
-       writeData(highByte(color));
-       writeData( lowByte(color));
-       totalPixel -= 1;
-    }
+  setDrawArea(x, y, (x + width - 1), (y + height - 1));
+
+  int totalPixel = width * height;
+  while (totalPixel > 0) {
+     writeData(highByte(color));
+     writeData( lowByte(color));
+     totalPixel -= 1;
   }
 }
 

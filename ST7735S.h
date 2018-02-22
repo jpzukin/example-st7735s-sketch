@@ -1,7 +1,7 @@
 #include <SPI.h>
 
-#ifndef __ST7735S_H_
-#define __ST7735S_H_
+#ifndef __ST7735S_H__
+#define __ST7735S_H__
 
 /*
  *  System Function Command List 
@@ -50,7 +50,7 @@ class ST7735S
   /*
    * 本来 private にする所だけど検証のために public とする
    */
-    boolean setDrawArea(uint8_t xs, uint8_t ys, uint8_t xe, uint8_t ye);
+    void setDrawArea(uint8_t xs, uint8_t ys, uint8_t xe, uint8_t ye);
   
     void writeCommand(uint8_t data);
     void writeData(uint8_t data);
